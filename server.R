@@ -1,5 +1,3 @@
-library(DT)
-
 # Server logic
 function(input, output) {
   
@@ -70,9 +68,36 @@ function(input, output) {
     }
   }, ignoreInit = TRUE)
   
+  observeEvent(input$students_table_cell_edit, {
+    info <- input$students_table_cell_edit
+    str(info)
+    edited_data <- students()
+    
+    # Update the modified cell
+    edited_data[info$row, info$col] <- info$value
+    
+    students(edited_data)
+  })
+  
   # Render the table
   output$students_table <- DT::renderDataTable({
     DT::datatable(students(), editable = TRUE)
   })
+  output$downloadData <- downloadHandler(
+    filename = function() {
+      paste("data-", Sys.Date(), ".csv", sep="")
+    },
+    content = function(file) {
+      write.csv(students(), file, row.names = FALSE)
+    },
+    contentType = "text/csv"
+  )
   
+  observe({
+    inFile <- input$file_upload
+    if (is.null(inFile)) return(NULL)  # No file uploaded
+    
+    uploaded_data <- read.csv(inFile$datapath, stringsAsFactors = FALSE)
+    students(uploaded_data)
+  })
 }
