@@ -29,7 +29,9 @@ fluidPage(
       tags$div(id = "name_container",
                textInput("name_input", "Enter Student Name"),
                actionButton("add_btn", "Add Name"),
-               actionButton("hidden_add_btn", "", style = "display: none;")  # Hidden button
+               actionButton("hidden_add_btn", "", style = "display: none;"),  # Hidden button
+      downloadButton("downloadData", "Download CSV"),
+      fileInput("file_upload", "Upload CSV", accept = ".csv")
       ),
       
       tags$div(id = "grade_container",
