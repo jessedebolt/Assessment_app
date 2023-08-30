@@ -4,14 +4,7 @@ function(input, output) {
   # Reactive variable to store student data
   students <- reactiveVal(data.frame(Name = character(), stringsAsFactors = FALSE))
   
-  if (file.exists('last_used_data.csv')) {
-    initial_data <- read.csv('last_used_data.csv', stringsAsFactors = FALSE)
-    students(initial_data)
-  } else {
-    students(data.frame(Name = character(), stringsAsFactors = FALSE))
-  }
-  
-    # Add new student name using the visible button
+  # Add new student name using the visible button
   observeEvent(input$add_btn, {
     current_data <- students()
     
@@ -84,11 +77,6 @@ function(input, output) {
     edited_data[info$row, info$col] <- info$value
     
     students(edited_data)
-  })
-  
-  observe({
-    current_data <- students()
-    write.csv(current_data, 'last_used_data.csv', row.names = FALSE)
   })
   
   # Render the table

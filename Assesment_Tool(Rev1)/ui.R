@@ -1,10 +1,8 @@
 library(shiny)
-library(shinythemes)
 
 # UI definition
 fluidPage(
   tags$head(
-#    shinythemes::themeSelector(),
     tags$script("
       $(document).ready(function() {
         $('#name_input').on('keyup', function(e) {
